@@ -79,7 +79,7 @@ class BasePlugin:
         #TODO: get number of inputs and apps to build list
         
         self.SourceOptions3 =   {   "LevelActions"  : "||||||", 
-                                    "LevelNames"    : "Off|TV|HDMI1|HDMI2|HDMI3|Hulu|Netflix|Amazon|Youtube|iPlayer|Unknown",
+                                    "LevelNames"    : "Off|TV|HDMI1|HDMI2|Disney|Hulu|Netflix|Amazon|Youtube|iPlayer|Unknown",
                                     "LevelOffHidden": "true",
                                     "SelectorStyle" : "0"
                                 }
@@ -224,9 +224,9 @@ class BasePlugin:
                         self.run("app", "com.webos.app.hdmi2")
                         self.tvPlaying = "HDMI 2"
                     if Level == 40:
-                        #_tv.send_req_ircc("AAAAAgAAABoAAABcAw==") #HDMI3
-                        self.tvPlaying = "HDMI 3"                        
-                        self.run("app", "com.webos.app.hdmi3")
+                        #Disney
+                        self.tvPlaying = "Disney"                        
+                        self.run("app", "com.disney.disneyplus-prod")
                     if Level == 50:
                         #_tv.send_req_ircc("AAAAAgAAABoAAABdAw==") #HDMI4
                         self.tvPlaying = "Hulu"
@@ -242,7 +242,7 @@ class BasePlugin:
                     if Level == 80:
                         #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #Youtube
                         self.tvPlaying = "Youtube"
-                        self.run("app", "Youtube.Leanback.V4")
+                        self.run("app", "youtube.leanback.v4")
                     if Level == 90:
                         #_tv.send_req_ircc("AAAAAgAAABoAAAB8Aw==") #iPlayer
                         self.tvPlaying = "iPlayer"
@@ -272,7 +272,7 @@ class BasePlugin:
         out = self.run("software-info")
         #Domoticz.Debug(out)
 
-        if 'TimeoutError()' in out:
+        if ('TimeoutError()' in out) or ( len(out) < 4) :
             tvStatus = 'off'#_tv.get_power_status()
         else:
             tvStatus = 'active'
@@ -369,9 +369,9 @@ class BasePlugin:
                 self.tvSource = 30
                 UpdateDevice(3, 1, str(self.tvSource))    # Set source device to HDMI2
                 self.tvPlaying = 'HDMI2'
-            elif "hdmi3" in self.tvPlaying.lower():
+            elif "disney" in self.tvPlaying.lower():
                 self.tvSource = 40
-                UpdateDevice(3, 1, str(self.tvSource))    # Set source device to HDMI3
+                UpdateDevice(3, 1, str(self.tvSource))    # Set source device to Disney
                 self.tvPlaying = 'HDMI3'
             elif "hulu" in self.tvPlaying.lower():
                 self.tvSource = 50
